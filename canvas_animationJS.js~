@@ -1,0 +1,70 @@
+var isStopped = false;
+
+//retrieve node in DOM via ID                                                   
+var c = document.getElementById("slate");
+var stp = document.getElementById("stop");
+
+var id; 
+
+                                                                                
+//instantiate a CanvasRenderingCOntext2D object                                 
+var ctx = c.getContext("2d");                                                   
+
+var x;
+var y; 
+
+
+var setCoord = function(e) {
+    x = e.offsetX;
+    y = e.offsetY;
+    draw();
+};
+    
+
+//Draws a circle
+var addCircle = function(x, y) {
+   
+    //Sets up the circle with x and y cor of mouse and a radius of 20
+    ctx.arc(x, y, 20, 0, 2*Math.PI);
+
+    //Fill the circle with black
+    ctx.fillStyle = "black";   
+    ctx.fill();
+    return     ctx.clearRect(0, 0, 600, 600); 
+    
+};
+
+//Draws
+var draw = function() {
+    
+    if (isStopped) {
+	window.cancelAnimationFrame(id); 
+	return;
+    }
+
+    
+    
+    addCircle(x, y);
+    
+    x += 1;
+    
+    id = window.requestAnimationFrame(draw);
+    console.log(id);
+    
+};
+
+ 
+//Clears the canvas
+var stop = function() {
+    isStopped = true;
+    return isStopped;
+};
+
+
+ 
+c.addEventListener("click", setCoord);
+stp.addEventListener("click", stop); 
+
+
+
+    
