@@ -5,6 +5,9 @@ var zoomZoom = document.getElementById("animaniac");
 var clr = document.getElementById("clear");
 var DVD = document.getElementById("bounce");
 
+var logo = new Image();
+logo.src = "../softdev2HW1--canvasAnimation/dvd_logo.png";
+
                                                                               
 //instantiate a CanvasRenderingCOntext2D object                                 
 var ctx = c.getContext("2d");
@@ -20,13 +23,14 @@ var y = 300;
 var radius = 20;
 
 //Initiazlies the color used by various circles created in the functions below
-var color;
+var color = "black";
 
 //Initializes the direction and speed of circle used in bounce()
 var direction = 1;
 var xspeed = 2.0;
 var yspeed = 1.0;
 
+var vector = 1; 
 
 
 /* 
@@ -46,21 +50,29 @@ var addCircle = function(xcor, ycor, radius) {
 
 //Draws for animaniac
 var animaniac = function() {
+    //Clearing
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 600, 600);
+
     //Beginning
     ctx.beginPath();
-
+        
     //Checking radius 
-    console.log("radius: " + radius);
+    console.log("radius: " + radius); 
 
+    //Shrink / Grow when necessary 
+    if ( (x + radius > 600) || (radius < 3) ) {
+	vector *= -1; 
+    }
+    
+    radius += (3 * vector);
+    
     //Create circle
     addCircle(x,y,radius);
-
+    
     //Fill in circle with color
     ctx.fillStyle = color;   
-    ctx.fill();    
-
-    //Increase the size
-    radius += 3;
+    ctx.fill();       
     
     id = window.requestAnimationFrame(animaniac);
     console.log("Frame ID: " + id);  
@@ -71,17 +83,17 @@ var animaniac = function() {
 var move = function() {
     //If x-cor goes outside of canvas's width:
     //Reverse direction, set new speed
-    if ( (x > 600-radius) || (x < 0+radius) ) {
-	if (x > 600 - radius) {
-	    x = 600 - radius;
+    if ( (x + 100 > 600) || (x < 0) )  {
+	if (x + 100 > 600) {
+	    x = 500; 
 	}
 
 	else {
-	    x = 0 + radius;
+	    x = 0;
 	}
 	    
 	direction *= -1;
-	xspeed = Math.random() * 2;
+	xspeed = 1; //Math.random() * 2;
 	//Random colors:
 	var red = Math.floor( Math.random() * 255 );
 	var green = Math.floor( Math.random() * 255 );
@@ -92,17 +104,17 @@ var move = function() {
 
     //If y-cor goes outside of canvas's height:
     //Reverse direction, set new speed
-    if ( (y > 600-radius) || (y < 0+radius) ) {
-	if (y > 600 - radius) {
-	    y = 600 - radius;
+    if ( (y + 100 > 600) || (y < 0) ) {
+	if (y + 100 > 600) {
+	    y = 500;
 	}
 
 	else {
-	    y = 0 + radius;
+	    y = 0;
 	}
 	  
 	direction *= -1;
-	yspeed = Math.random() * 2;
+	yspeed = 1; //Math.random() * 2;
 
 	//Random colors:
 	var red = Math.floor( Math.random() * 255 );
@@ -118,24 +130,30 @@ var move = function() {
     x += (xspeed * direction);
     y += (yspeed * direction);
 
+    /* 
     //Draw new circle
     ctx.arc(x, y, radius, 0, 2*Math.PI);
-    ctx.fill();
+    ctx.fill(); */
 };
 
+var draw_logo = function() {
+    ctx.beginPath();
+    radius = 50;
+    ctx.drawImage(logo, x, y, 100, 100);
+}
 /* ========================== */
 //DVD bouncing motion
 var bounce = function() {
-    //Beginning
-    ctx.beginPath();
+    clear(); 
+  
+    draw_logo();
 
-    //Clear canvas 
-    ctx.clearRect(0, 0, 600, 600);
+    //Draw rectangle
+    // ctx.drawRect(x,y, 10, 10);
 
-    //Create circle
-    addCircle(radius);
+    
 
-    //Circle movement
+    //DVD movement
     move(x,y);
 
     id = window.requestAnimationFrame(bounce);
