@@ -50,6 +50,8 @@ var addCircle = function(xcor, ycor, radius) {
 
 //Draws for animaniac
 var animaniac = function() {
+    window.cancelAnimationFrame(id);
+    
     //Clearing
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, 600, 600);
@@ -144,15 +146,15 @@ var draw_logo = function() {
 /* ========================== */
 //DVD bouncing motion
 var bounce = function() {
-    clear(); 
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 600, 600);
   
     draw_logo();
 
     //Draw rectangle
     // ctx.drawRect(x,y, 10, 10);
 
-    
-
+  
     //DVD movement
     move(x,y);
 
@@ -165,7 +167,7 @@ var bounce = function() {
 
 //Stops the animation
 var stop = function() {
-    window.cancelAnimationFrame(id);;
+    window.cancelAnimationFrame(id);
 };
 
 /* ========================== */
@@ -173,6 +175,8 @@ var stop = function() {
 //Clears the canvas
 var clear = function() {
     radius = 20;
+    x = 300;
+    y = 300;
     console.log("clearing");
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, 600, 600);
